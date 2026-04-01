@@ -1,0 +1,61 @@
+/* ---------------- TAG SELECTOR ---------------- */
+table {
+  width: 100%;
+  background-color: #ffffff;
+}
+
+/* ---------------- CLASS SELECTOR ---------------- */
+.form-box {
+  border: none;
+  margin: 0;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* ---------------- ID SELECTOR ---------------- */
+#mainForm {
+  background-color: #8c6868;
+}
+
+/* ---------------- NAVIGATION STYLE ---------------- */
+.navbar {
+  margin-bottom: 20px;
+}
+
+/* ---------------- PAGE BACKGROUND ---------------- */
+body {
+  background-color: #b4b6b8;
+  padding-top: 70px;
+}
+
+/* ---------------- HERO BANNER ---------------- */
+.hero-section {
+  height: 60vh;
+  background-image: url("../images/banner.jpg");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.hero-overlay {
+  height: 100%;
+  width: 100%;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff0f0;
+  text-align: center;
+}
+
+.hero-overlay h1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.hero-overlay p {
+  font-size: 1.2rem;
+}
