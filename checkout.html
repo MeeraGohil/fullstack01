@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — Encave Café</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+.page-hero{background:var(--green-dark);padding:60px 0 40px;text-align:center;border-bottom:3px solid var(--gold);}
+.page-hero h1{color:var(--white);}
+.checkout-layout{display:grid;grid-template-columns:1fr 380px;gap:32px;padding:48px 0 80px;align-items:start;}
+.checkout-card{background:var(--white);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);margin-bottom:24px;}
+.checkout-card h3{font-size:18px;color:var(--green-dark);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--green-pale);}
+.form-group{margin-bottom:18px;}
+.form-group label{display:block;font-size:13px;font-weight:600;color:var(--green-dark);margin-bottom:6px;}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 16px;border:1.5px solid rgba(26,58,42,0.15);border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text-dark);transition:border-color 0.2s;background:var(--cream);}
+.form-group input:focus,.form-group select:focus{border-color:var(--green-light);outline:none;background:var(--white);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.payment-options{display:flex;flex-direction:column;gap:12px;}
+.payment-option{display:flex;align-items:center;gap:14px;padding:16px;border:2px solid rgba(26,58,42,0.1);border-radius:var(--radius-sm);cursor:pointer;transition:var(--transition);}
+.payment-option.selected{border-color:var(--green-dark);background:var(--green-pale);}
+.payment-option input[type=radio]{accent-color:var(--green-dark);width:18px;height:18px;}
+.payment-option-label{font-weight:600;font-size:15px;color:var(--green-dark);}
+.payment-option-desc{font-size:12px;color:var(--text-light);}
+.order-review-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--green-pale);font-size:14px;}
+.order-review-item:last-child{border-bottom:none;}
+.place-order-btn{width:100%;padding:18px;font-size:16px;font-weight:700;border-radius:50px;cursor:pointer;border:none;background:var(--gold);color:var(--green-dark);font-family:'DM Sans',sans-serif;transition:var(--transition);margin-top:8px;}
+.place-order-btn:hover{background:var(--gold-light);transform:translateY(-2px);}
+.sticky-summary{position:sticky;top:88px;}
+@media(max-width:768px){.checkout-layout{grid-template-columns:1fr;}.sticky-summary{position:static;}.form-row{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="IMG_9419_2.PNG" alt="Encave" class="logo-img"><span class="logo-text">Encave <span class="logo-sub">Café</span></span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li><li><a href="menu.html">Menu</a></li>
+      <li><a href="cart.html" class="cart-link">🛒<span class="cart-count" id="cartCount">0</span></a></li>
+    </ul>
+  </div>
+</nav>
+<div class="page-hero"><div class="container"><div class="section-label" style="color:var(--gold);">Almost There</div><h1>Check<span class="accent">out</span></h1></div></div>
+<div class="container">
+  <div class="checkout-layout">
+    <div>
+      <div class="checkout-card">
+        <h3>👤 Your Details</h3>
+        <div class="form-row">
+          <div class="form-group"><label>Full Name</label><input type="text" id="custName" placeholder="Your name"></div>
+          <div class="form-group"><label>Phone Number</label><input type="tel" id="custPhone" placeholder="10-digit number"></div>
+        </div>
+        <div class="form-group"><label>Email (optional)</label><input type="email" id="custEmail" placeholder="for order confirmation"></div>
+      </div>
+      <div class="checkout-card">
+        <h3>📍 Pickup Location</h3>
+        <div class="form-group">
+          <label>Select Encave Outlet</label>
+          <select id="checkoutLocation">
+            <option value="">— Choose Location —</option>
+            <option value="1">Design Building</option>
+            <option value="2">Sarasvati Building – 1st Floor</option>
+            <option value="3">Vivekanand Building</option>
+            <option value="4">Maitrey Building – 2nd Floor</option>
+            <option value="5">Dhruv Building</option>
+            <option value="6">Vyas Building – 5th Floor</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Special Instructions (optional)</label><textarea rows="3" id="specialInstructions" placeholder="Any allergies, special requests..."></textarea></div>
+      </div>
+      <div class="checkout-card">
+        <h3>💳 Payment Method</h3>
+        <div class="payment-options">
+          <label class="payment-option selected" onclick="selectPayment(this,'razorpay')">
+            <input type="radio" name="payment" value="razorpay" checked>
+            <div><div class="payment-option-label">💳 Razorpay (UPI / Card / Wallet)</div><div class="payment-option-desc">Pay securely via Razorpay — UPI, debit/credit card, wallet</div></div>
+          </label>
+          <label class="payment-option" onclick="selectPayment(this,'cash')">
+            <input type="radio" name="payment" value="cash">
+            <div><div class="payment-option-label">💵 Pay at Counter</div><div class="payment-option-desc">Pay when you pick up your order</div></div>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="sticky-summary">
+      <div class="checkout-card">
+        <h3>🧾 Order Summary</h3>
+        <div id="orderReviewItems"></div>
+        <div style="margin-top:16px;">
+          <div class="summary-row" style="display:flex;justify-content:space-between;font-size:14px;color:var(--text-mid);margin-bottom:8px;"><span>Subtotal</span><span id="coSubtotal">₹0</span></div>
+          <div class="summary-row" style="display:flex;justify-content:space-between;font-size:14px;color:var(--text-mid);margin-bottom:8px;"><span>GST (5%)</span><span id="coTax">₹0</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:18px;font-weight:700;color:var(--green-dark);padding-top:12px;border-top:2px solid var(--green-pale);"><span>Total</span><span id="coTotal" style="color:var(--gold);font-family:'Playfair Display',serif;">₹0</span></div>
+        </div>
+        <button class="place-order-btn" onclick="placeOrder()">Place Order →</button>
+        <p style="text-align:center;font-size:12px;color:var(--text-light);margin-top:12px;">🔒 Secure payment powered by Razorpay</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="js/app.js"></script>
+<script>
+function selectPayment(el, val) { document.querySelectorAll('.payment-option').forEach(o=>o.classList.remove('selected')); el.classList.add('selected'); }
+function renderOrderReview() {
+  const items = document.getElementById('orderReviewItems');
+  const subtotal = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const tax = Math.round(subtotal*0.05);
+  items.innerHTML = cart.map(i=>`<div class="order-review-item"><span>${i.name} × ${i.qty}</span><span>₹${i.price*i.qty}</span></div>`).join('');
+  document.getElementById('coSubtotal').textContent = `₹${subtotal}`;
+  document.getElementById('coTax').textContent = `₹${tax}`;
+  document.getElementById('coTotal').textContent = `₹${subtotal+tax}`;
+}
+function placeOrder() {
+  const name = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const location = document.getElementById('checkoutLocation').value;
+  if (!name || !phone || !location) { showToast('⚠️ Please fill name, phone and location'); return; }
+  if (!cart.length) { showToast('⚠️ Your cart is empty'); return; }
+  const payMethod = document.querySelector('input[name=payment]:checked').value;
+  if (payMethod === 'razorpay') {
+    initRazorpay(name, phone, cart.reduce((s,i)=>s+i.price*i.qty,0));
+  } else {
+    submitOrder(name, phone, location, 'CASH');
+  }
+}
+function initRazorpay(name, phone, subtotal) {
+  const total = (subtotal + Math.round(subtotal*0.05)) * 100;
+  fetch(`${API_BASE}/payment/create-order`, {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ amount: total, currency: 'INR' })
+  }).then(r=>r.json()).then(order => {
+    const options = {
+      key: 'rzp_test_YOUR_KEY_HERE',
+      amount: order.amount,
+      currency: 'INR',
+      name: 'Encave Café',
+      description: 'Campus Food Order',
+      order_id: order.id,
+      handler: function(response) { submitOrder(name, phone, document.getElementById('checkoutLocation').value, 'ONLINE', response); },
+      prefill: { name: name, contact: phone },
+      theme: { color: '#1A3A2A' }
+    };
+    const rzp = new Razorpay(options);
+    rzp.open();
+  }).catch(()=>{ showToast('Payment gateway unavailable. Switched to pay at counter.'); submitOrder(name,phone,document.getElementById('checkoutLocation').value,'CASH'); });
+}
+function submitOrder(name, phone, location, payMethod, paymentResponse) {
+  const orderData = {
+    customerName: name, customerPhone: phone,
+    locationId: parseInt(location), paymentMethod: payMethod,
+    items: cart.map(i=>({menuItemId:i.id, quantity:i.qty, price:i.price})),
+    paymentDetails: paymentResponse || null,
+    specialInstructions: document.getElementById('specialInstructions').value
+  };
+  fetch(`${API_BASE}/orders`, {
+    method:'POST', headers:{'Content-Type':'application/json', 'Authorization':'Bearer '+localStorage.getItem('encave_token')},
+    body: JSON.stringify(orderData)
+  }).then(r=>r.json()).then(order => {
+    localStorage.removeItem('encave_cart');
+    window.location.href = `orders.html?token=${order.orderToken}&success=true`;
+  }).catch(()=>{
+    // Demo mode: generate a token locally
+    const token = 'ENC' + Math.floor(Math.random()*900+100);
+    localStorage.removeItem('encave_cart');
+    window.location.href = `orders.html?token=${token}&success=true`;
+  });
+}
+document.addEventListener('DOMContentLoaded', renderOrderReview);
+</script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</body>
+</html>

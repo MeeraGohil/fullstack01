@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu — Encave Café</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/menu.css">
+</head>
+<body>
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="IMG_9419_2.PNG" alt="Encave" class="logo-img">
+      <span class="logo-text">Encave <span class="logo-sub">Café</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html" class="active">Menu</a></li>
+      <li><a href="orders.html">My Orders</a></li>
+      <li><a href="login.html" class="nav-btn">Login</a></li>
+      <li><a href="cart.html" class="cart-link">🛒<span class="cart-count" id="cartCount">0</span></a></li>
+    </ul>
+    <button class="hamburger" id="hamburger">☰</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a><a href="menu.html">Menu</a><a href="orders.html">My Orders</a><a href="login.html">Login</a><a href="cart.html">Cart 🛒</a>
+  </div>
+</nav>
+
+<div class="menu-hero">
+  <div class="container">
+    <div class="menu-hero-inner">
+      <div class="section-label">MIT WPU Campus</div>
+      <h1 class="section-title">Our <span class="accent">Full Menu</span></h1>
+      <p style="color:rgba(255,255,255,0.7);font-size:16px;">Fresh, affordable, always delicious. Order from any location below.</p>
+    </div>
+  </div>
+</div>
+
+<div class="menu-page-layout container">
+  <!-- Sidebar: Location Selector -->
+  <aside class="menu-sidebar">
+    <div class="sidebar-title">📍 Choose Location</div>
+    <div id="locationList"></div>
+  </aside>
+
+  <!-- Main: Menu Content -->
+  <main class="menu-main">
+    <div class="menu-location-header" id="menuLocationHeader">
+      <h2 id="selectedLocationName">Select a Location</h2>
+      <span id="selectedLocationStatus" class="location-status status-open">● Open</span>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="menu-cat-tabs" id="menuCatTabs">
+      <button class="tab active" data-cat="all">All Items</button>
+      <button class="tab" data-cat="breakfast">🍳 Breakfast</button>
+      <button class="tab" data-cat="sandwiches">🥪 Sandwiches</button>
+      <button class="tab" data-cat="pasta">🍝 Pasta</button>
+      <button class="tab" data-cat="rice">🍚 Rice</button>
+      <button class="tab" data-cat="veg thali">🍱 Thali</button>
+      <button class="tab" data-cat="maggi">🍜 Maggi</button>
+      <button class="tab" data-cat="sides">🍟 Sides</button>
+      <button class="tab" data-cat="beverages">☕ Beverages</button>
+    </div>
+
+    <div class="full-menu-grid" id="fullMenuGrid"></div>
+  </main>
+</div>
+
+<!-- Floating Cart Bar -->
+<div class="floating-cart" id="floatingCart" style="display:none">
+  <span>🛒 <span id="fcItems">0</span> items</span>
+  <span id="fcTotal">₹0</span>
+  <a href="cart.html" class="btn-primary" style="padding:10px 24px;font-size:14px;">View Cart →</a>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="js/app.js"></script>
+<script src="js/menu.js"></script>
+</body>
+</html>

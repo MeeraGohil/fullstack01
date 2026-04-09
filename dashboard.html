@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Encave Café</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+body{background:var(--cream);}
+.admin-layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh;}
+.admin-sidebar{background:var(--green-dark);padding:28px 16px;position:fixed;width:220px;height:100vh;overflow-y:auto;}
+.admin-logo{display:flex;align-items:center;gap:10px;margin-bottom:36px;padding-bottom:20px;border-bottom:1px solid rgba(201,168,76,0.2);}
+.admin-logo img{width:40px;height:40px;border-radius:50%;border:2px solid var(--gold);}
+.admin-logo span{color:var(--gold);font-weight:700;font-size:15px;font-family:'Playfair Display',serif;}
+.sidebar-nav{display:flex;flex-direction:column;gap:4px;}
+.sidebar-link{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:var(--radius-sm);color:rgba(255,255,255,0.7);font-size:14px;font-weight:500;transition:var(--transition);text-decoration:none;}
+.sidebar-link:hover,.sidebar-link.active{background:rgba(201,168,76,0.12);color:var(--gold);}
+.sidebar-link .icon{font-size:18px;width:22px;text-align:center;}
+.admin-main{margin-left:220px;padding:32px;}
+.admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;}
+.admin-header h1{font-size:28px;color:var(--green-dark);}
+.stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:32px;}
+.stat-card{background:var(--white);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);border-left:4px solid var(--green-light);}
+.stat-card:nth-child(2){border-left-color:var(--gold);}
+.stat-card:nth-child(3){border-left-color:#4CAF50;}
+.stat-card:nth-child(4){border-left-color:#2196F3;}
+.stat-card-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);margin-bottom:8px;}
+.stat-card-value{font-size:32px;font-weight:700;color:var(--green-dark);font-family:'Playfair Display',serif;}
+.stat-card-sub{font-size:13px;color:var(--text-light);margin-top:4px;}
+.admin-card{background:var(--white);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:24px;}
+.admin-card h3{font-size:18px;color:var(--green-dark);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.orders-table{width:100%;border-collapse:collapse;font-size:14px;}
+.orders-table th{text-align:left;padding:10px 14px;background:var(--green-pale);color:var(--green-dark);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;}
+.orders-table td{padding:12px 14px;border-bottom:1px solid var(--green-pale);color:var(--text-mid);}
+.orders-table tr:hover td{background:var(--cream);}
+.order-token-cell{font-weight:700;color:var(--green-dark);font-family:'Playfair Display',serif;}
+.status-select{padding:6px 12px;border-radius:50px;border:1.5px solid rgba(26,58,42,0.15);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;background:var(--white);}
+.location-toggle-card{display:flex;align-items:center;justify-content:space-between;padding:16px;background:var(--white);border-radius:var(--radius-sm);border:1px solid rgba(26,58,42,0.07);margin-bottom:10px;}
+.toggle-switch{position:relative;width:48px;height:26px;cursor:pointer;}
+.toggle-switch input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:#ccc;border-radius:26px;transition:.3s;}
+.toggle-slider::before{content:'';position:absolute;width:20px;height:20px;left:3px;bottom:3px;background:white;border-radius:50%;transition:.3s;}
+.toggle-switch input:checked+.toggle-slider{background:var(--green-dark);}
+.toggle-switch input:checked+.toggle-slider::before{transform:translateX(22px);}
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div class="admin-logo"><img src="../IMG_9419_2.PNG" alt="Encave"><span>Admin Panel</span></div>
+    <nav class="sidebar-nav">
+      <a class="sidebar-link active" href="dashboard.html"><span class="icon">📊</span>Dashboard</a>
+      <a class="sidebar-link" href="orders.html"><span class="icon">📋</span>Live Orders</a>
+      <a class="sidebar-link" href="menu.html"><span class="icon">🍽️</span>Menu Manager</a>
+      <a class="sidebar-link" href="locations.html"><span class="icon">📍</span>Locations</a>
+      <a class="sidebar-link" href="../index.html" style="margin-top:auto;"><span class="icon">←</span>Back to Site</a>
+    </nav>
+  </aside>
+  <main class="admin-main">
+    <div class="admin-header">
+      <div><h1>Dashboard</h1><p style="color:var(--text-light);font-size:14px;">Encave Café Admin Panel</p></div>
+      <div style="font-size:13px;color:var(--text-light);" id="adminClock"></div>
+    </div>
+    <div class="stat-cards">
+      <div class="stat-card"><div class="stat-card-label">Today's Orders</div><div class="stat-card-value" id="statOrders">—</div><div class="stat-card-sub">Live count</div></div>
+      <div class="stat-card"><div class="stat-card-label">Today's Revenue</div><div class="stat-card-value" id="statRevenue">—</div><div class="stat-card-sub">All locations</div></div>
+      <div class="stat-card"><div class="stat-card-label">Pending Orders</div><div class="stat-card-value" id="statPending">—</div><div class="stat-card-sub">Needs attention</div></div>
+      <div class="stat-card"><div class="stat-card-label">Open Locations</div><div class="stat-card-value" id="statLocations">—</div><div class="stat-card-sub">of 6 total</div></div>
+    </div>
+    <div class="admin-card">
+      <h3>🕐 Recent Orders <button onclick="loadDashboard()" style="margin-left:auto;background:none;border:1.5px solid var(--green-light);padding:6px 16px;border-radius:50px;cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;font-weight:600;color:var(--green-dark);">↻ Refresh</button></h3>
+      <table class="orders-table">
+        <thead><tr><th>Token</th><th>Customer</th><th>Items</th><th>Total</th><th>Location</th><th>Status</th></tr></thead>
+        <tbody id="recentOrdersBody"><tr><td colspan="6" style="text-align:center;color:var(--text-light);padding:40px;">Loading orders...</td></tr></tbody>
+      </table>
+    </div>
+    <div class="admin-card">
+      <h3>📍 Location Status</h3>
+      <div id="locationToggles"></div>
+    </div>
+  </main>
+</div>
+<script src="../js/app.js"></script>
+<script>
+function updateClock(){const now=new Date();document.getElementById('adminClock').textContent=now.toLocaleString();}
+setInterval(updateClock,1000);updateClock();
+
+async function loadDashboard() {
+  const token = localStorage.getItem('encave_token');
+  const headers = { 'Authorization': 'Bearer ' + token };
+  try {
+    const [ordersRes, locsRes] = await Promise.all([
+      fetch(`${API_BASE}/admin/orders`, { headers }),
+      fetch(`${API_BASE}/locations`, { headers })
+    ]);
+    const orders = await ordersRes.json();
+    const locs = await locsRes.json();
+    renderStats(orders, locs);
+    renderRecentOrders(orders.slice(0, 8));
+    renderLocationToggles(locs);
+  } catch {
+    renderStats([], LOCATIONS);
+    renderRecentOrders([]);
+    renderLocationToggles(LOCATIONS);
+  }
+}
+
+function renderStats(orders, locs) {
+  const todayOrders = orders.length;
+  const revenue = orders.reduce((s,o)=>s+(o.total||0),0);
+  const pending = orders.filter(o=>o.status==='PENDING').length;
+  const openLocs = locs.filter(l=>l.open||l.isOpen).length;
+  document.getElementById('statOrders').textContent = todayOrders;
+  document.getElementById('statRevenue').textContent = `₹${revenue}`;
+  document.getElementById('statPending').textContent = pending;
+  document.getElementById('statLocations').textContent = openLocs;
+}
+
+function renderRecentOrders(orders) {
+  const tbody = document.getElementById('recentOrdersBody');
+  if (!orders.length) { tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-light);padding:40px;">No orders today</td></tr>`; return; }
+  tbody.innerHTML = orders.map(o=>`
+    <tr>
+      <td class="order-token-cell">#${o.orderToken}</td>
+      <td>${o.customerName||'—'}</td>
+      <td>${(o.items||[]).length} items</td>
+      <td>₹${o.total||0}</td>
+      <td>${o.locationName||'—'}</td>
+      <td>
+        <select class="status-select" onchange="updateStatus('${o.id}',this.value)">
+          <option ${o.status==='PENDING'?'selected':''}>PENDING</option>
+          <option ${o.status==='ACCEPTED'?'selected':''}>ACCEPTED</option>
+          <option ${o.status==='PREPARING'?'selected':''}>PREPARING</option>
+          <option ${o.status==='READY'?'selected':''}>READY</option>
+          <option ${o.status==='COMPLETED'?'selected':''}>COMPLETED</option>
+        </select>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function renderLocationToggles(locs) {
+  document.getElementById('locationToggles').innerHTML = locs.map(loc=>`
+    <div class="location-toggle-card">
+      <div>
+        <div style="font-weight:600;color:var(--green-dark);">${loc.name}</div>
+        <div style="font-size:13px;color:var(--text-light);">${loc.floor||loc.floorDetails||''} · ${loc.timing||'8AM–9PM'}</div>
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" ${(loc.open||loc.isOpen)?'checked':''} onchange="toggleLocation(${loc.id||loc.locationId},this.checked)">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+  `).join('');
+}
+
+async function updateStatus(orderId, status) {
+  const token = localStorage.getItem('encave_token');
+  try {
+    await fetch(`${API_BASE}/admin/orders/${orderId}/status`, {
+      method:'PUT', headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body: JSON.stringify({ status })
+    });
+    showToast('✅ Status updated to ' + status);
+  } catch { showToast('Could not update status'); }
+}
+
+async function toggleLocation(locationId, isOpen) {
+  const token = localStorage.getItem('encave_token');
+  try {
+    await fetch(`${API_BASE}/admin/locations/${locationId}/toggle`, {
+      method:'PUT', headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body: JSON.stringify({ isOpen })
+    });
+    showToast(`✅ Location ${isOpen?'opened':'closed'}`);
+  } catch { showToast('Could not update location'); }
+}
+
+document.addEventListener('DOMContentLoaded', loadDashboard);
+setInterval(loadDashboard, 30000);
+</script>
+</body>
+</html>

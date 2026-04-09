@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart — Encave Café</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+.page-hero { background:var(--green-dark); padding:60px 0 40px; text-align:center; border-bottom:3px solid var(--gold); }
+.page-hero h1 { color:var(--white); }
+.cart-layout { display:grid; grid-template-columns:1fr 360px; gap:32px; padding:48px 0 80px; align-items:start; }
+.cart-items-section { background:var(--white); border-radius:var(--radius); padding:28px; box-shadow:var(--shadow); }
+.cart-item { display:flex; gap:16px; padding:20px 0; border-bottom:1px solid var(--green-pale); align-items:center; }
+.cart-item:last-child { border-bottom:none; }
+.cart-item-img { width:80px; height:80px; border-radius:var(--radius-sm); overflow:hidden; flex-shrink:0; }
+.cart-item-img img { width:100%;height:100%;object-fit:cover; }
+.cart-item-info { flex:1; }
+.cart-item-name { font-weight:600;font-size:16px;color:var(--green-dark);margin-bottom:4px; }
+.cart-item-price { color:var(--text-light);font-size:14px; }
+.qty-controls { display:flex;align-items:center;gap:12px;margin-top:10px; }
+.qty-btn { width:30px;height:30px;border-radius:50%;border:1.5px solid var(--green-light);background:none;cursor:pointer;font-size:16px;font-weight:700;color:var(--green-dark);display:flex;align-items:center;justify-content:center;transition:var(--transition); }
+.qty-btn:hover { background:var(--green-dark);color:var(--gold);border-color:var(--green-dark); }
+.qty-num { font-weight:700;font-size:16px;color:var(--green-dark);min-width:20px;text-align:center; }
+.remove-btn { margin-left:auto;background:none;border:none;color:#e55;font-size:13px;cursor:pointer;font-weight:600;transition:color 0.2s; }
+.remove-btn:hover { color:#c00; }
+.cart-item-subtotal { font-weight:700;font-size:16px;color:var(--green-dark);font-family:'Playfair Display',serif;min-width:60px;text-align:right; }
+.order-summary { background:var(--white);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);position:sticky;top:88px; }
+.summary-title { font-size:20px;font-weight:700;color:var(--green-dark);margin-bottom:24px;font-family:'Playfair Display',serif; }
+.summary-row { display:flex;justify-content:space-between;font-size:14px;color:var(--text-mid);margin-bottom:12px; }
+.summary-row.total { font-size:18px;font-weight:700;color:var(--green-dark);padding-top:14px;border-top:2px solid var(--green-pale);margin-top:4px; }
+.summary-row.total span:last-child { color:var(--gold);font-family:'Playfair Display',serif; }
+.checkout-btn { width:100%;margin-top:24px;padding:16px;font-size:16px;border-radius:50px;cursor:pointer;font-family:'DM Sans',sans-serif; }
+.empty-cart { text-align:center;padding:80px 40px; }
+.empty-cart .empty-icon { font-size:64px;margin-bottom:20px; }
+.empty-cart h3 { color:var(--green-dark);margin-bottom:12px;font-size:24px; }
+.empty-cart p { color:var(--text-light);margin-bottom:28px; }
+.location-select-card { background:var(--green-pale);border-radius:var(--radius-sm);padding:16px;margin-bottom:20px;border:1px solid rgba(26,58,42,0.1); }
+.location-select-card label { font-size:13px;font-weight:600;color:var(--green-dark);display:block;margin-bottom:8px; }
+.location-select-card select { width:100%;padding:10px 14px;border-radius:var(--radius-sm);border:1.5px solid rgba(26,58,42,0.15);font-family:'DM Sans',sans-serif;font-size:14px;background:var(--white);color:var(--text-dark);cursor:pointer; }
+@media(max-width:768px){.cart-layout{grid-template-columns:1fr;}.order-summary{position:static;}}
+</style>
+</head>
+<body>
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="IMG_9419_2.PNG" alt="Encave" class="logo-img"><span class="logo-text">Encave <span class="logo-sub">Café</span></span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li><li><a href="menu.html">Menu</a></li><li><a href="orders.html">My Orders</a></li>
+      <li><a href="login.html" class="nav-btn">Login</a></li>
+      <li><a href="cart.html" class="cart-link active">🛒<span class="cart-count" id="cartCount">0</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="section-label" style="color:var(--gold);">Your Order</div>
+    <h1>Your <span class="accent">Cart</span></h1>
+  </div>
+</div>
+
+<div class="container">
+  <div class="cart-layout">
+    <div class="cart-items-section">
+      <div id="cartItemsContainer"></div>
+    </div>
+    <div class="order-summary">
+      <div class="summary-title">Order Summary</div>
+      <div class="location-select-card">
+        <label>📍 Pick Up From</label>
+        <select id="locationSelect">
+          <option value="">— Select Location —</option>
+          <option value="1">Design Building</option>
+          <option value="2">Sarasvati Building – 1st Floor</option>
+          <option value="3">Vivekanand Building</option>
+          <option value="4">Maitrey Building – 2nd Floor</option>
+          <option value="5">Dhruv Building</option>
+          <option value="6">Vyas Building – 5th Floor</option>
+        </select>
+      </div>
+      <div id="summaryRows"></div>
+      <a href="checkout.html" class="btn-primary checkout-btn" id="checkoutBtn" style="display:block;text-align:center;">Proceed to Checkout →</a>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="js/app.js"></script>
+<script>
+function renderCart() {
+  const container = document.getElementById('cartItemsContainer');
+  const summaryRows = document.getElementById('summaryRows');
+  if (!cart.length) {
+    container.innerHTML = `<div class="empty-cart"><div class="empty-icon">🛒</div><h3>Your cart is empty</h3><p>Looks like you haven't added anything yet.</p><a href="menu.html" class="btn-primary">Browse Menu</a></div>`;
+    summaryRows.innerHTML = '';
+    return;
+  }
+  container.innerHTML = cart.map((item, idx) => `
+    <div class="cart-item">
+      <div class="cart-item-img"><img src="${item.img || 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=200&q=60'}" alt="${item.name}"></div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-price">₹${item.price} each</div>
+        <div class="qty-controls">
+          <button class="qty-btn" onclick="changeQty(${idx},-1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${idx},1)">+</button>
+        </div>
+      </div>
+      <span class="cart-item-subtotal">₹${item.price * item.qty}</span>
+      <button class="remove-btn" onclick="removeItem(${idx})">✕ Remove</button>
+    </div>
+  `).join('');
+  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const tax = Math.round(subtotal * 0.05);
+  summaryRows.innerHTML = `
+    <div class="summary-row"><span>Subtotal</span><span>₹${subtotal}</span></div>
+    <div class="summary-row"><span>GST (5%)</span><span>₹${tax}</span></div>
+    <div class="summary-row total"><span>Total</span><span>₹${subtotal + tax}</span></div>
+  `;
+}
+function changeQty(idx, delta) {
+  cart[idx].qty += delta;
+  if (cart[idx].qty <= 0) cart.splice(idx, 1);
+  saveCart(); renderCart();
+}
+function removeItem(idx) {
+  cart.splice(idx, 1); saveCart(); renderCart(); showToast('Item removed');
+}
+document.addEventListener('DOMContentLoaded', renderCart);
+</script>
+</body>
+</html>

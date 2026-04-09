@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Orders — Encave Café</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+.page-hero{background:var(--green-dark);padding:60px 0 40px;text-align:center;border-bottom:3px solid var(--gold);}
+.page-hero h1{color:var(--white);}
+.orders-page{padding:48px 0 80px;}
+.success-banner{background:linear-gradient(135deg,var(--green-dark),var(--green-mid));color:var(--white);border-radius:var(--radius);padding:36px;text-align:center;margin-bottom:40px;position:relative;overflow:hidden;}
+.success-banner::before{content:'🎉';font-size:80px;position:absolute;top:-10px;right:20px;opacity:0.15;}
+.token-display{background:var(--gold);color:var(--green-dark);display:inline-block;font-size:36px;font-weight:900;padding:12px 36px;border-radius:var(--radius-sm);margin:16px 0;font-family:'Playfair Display',serif;letter-spacing:3px;}
+.status-tracker{background:var(--white);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow);margin-bottom:32px;}
+.status-steps{display:flex;align-items:flex-start;gap:0;margin-top:28px;position:relative;}
+.status-step{flex:1;text-align:center;position:relative;}
+.status-step::after{content:'';position:absolute;top:20px;left:50%;width:100%;height:2px;background:var(--green-pale);}
+.status-step:last-child::after{display:none;}
+.step-dot{width:40px;height:40px;border-radius:50%;border:3px solid var(--green-pale);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:16px;margin:0 auto 10px;position:relative;z-index:1;transition:var(--transition);}
+.status-step.done .step-dot{background:var(--green-dark);border-color:var(--green-dark);color:var(--gold);}
+.status-step.active .step-dot{background:var(--gold);border-color:var(--gold);color:var(--green-dark);box-shadow:0 0 0 4px rgba(201,168,76,0.2);}
+.step-done-line::after{background:var(--green-dark)!important;}
+.step-label{font-size:12px;font-weight:600;color:var(--text-light);}
+.status-step.done .step-label,.status-step.active .step-label{color:var(--green-dark);}
+.orders-list{display:flex;flex-direction:column;gap:20px;}
+.order-card{background:var(--white);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);border-left:4px solid var(--green-light);}
+.order-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.order-token-small{font-size:18px;font-weight:700;color:var(--green-dark);font-family:'Playfair Display',serif;}
+.order-badge{padding:6px 14px;border-radius:50px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;}
+.badge-pending{background:rgba(255,165,0,0.15);color:#b8860b;}
+.badge-preparing{background:rgba(26,58,42,0.1);color:var(--green-dark);}
+.badge-ready{background:rgba(40,167,69,0.15);color:#155724;}
+.badge-completed{background:rgba(108,117,125,0.1);color:#495057;}
+.order-items-list{display:flex;flex-direction:column;gap:6px;margin:12px 0;padding:12px 0;border-top:1px solid var(--green-pale);border-bottom:1px solid var(--green-pale);}
+.order-item-row{display:flex;justify-content:space-between;font-size:14px;color:var(--text-mid);}
+.order-total-row{display:flex;justify-content:space-between;font-weight:700;font-size:16px;color:var(--green-dark);margin-top:12px;}
+.no-orders{text-align:center;padding:80px 40px;}
+.refresh-btn{background:none;border:1.5px solid var(--green-light);color:var(--green-dark);padding:10px 24px;border-radius:50px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;transition:var(--transition);}
+.refresh-btn:hover{background:var(--green-dark);color:var(--gold);border-color:var(--green-dark);}
+</style>
+</head>
+<body>
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="IMG_9419_2.PNG" alt="Encave" class="logo-img"><span class="logo-text">Encave <span class="logo-sub">Café</span></span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li><li><a href="menu.html">Menu</a></li>
+      <li><a href="orders.html" class="active">My Orders</a></li>
+      <li><a href="login.html" class="nav-btn">Login</a></li>
+      <li><a href="cart.html" class="cart-link">🛒<span class="cart-count" id="cartCount">0</span></a></li>
+    </ul>
+  </div>
+</nav>
+<div class="page-hero"><div class="container"><div class="section-label" style="color:var(--gold);">Order Tracking</div><h1>My <span class="accent">Orders</span></h1></div></div>
+<div class="orders-page container">
+  <div id="successBanner"></div>
+  <div id="ordersContent"></div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="js/app.js"></script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const orderToken = params.get('token');
+const isSuccess = params.get('success') === 'true';
+
+function renderSuccessBanner() {
+  if (!isSuccess || !orderToken) return;
+  document.getElementById('successBanner').innerHTML = `
+    <div class="success-banner fade-up">
+      <div style="font-size:48px;margin-bottom:12px;">🎉</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:28px;margin-bottom:8px;">Order Placed Successfully!</h2>
+      <p style="opacity:0.8;margin-bottom:16px;">Your order is being prepared. Show this token at the counter:</p>
+      <div class="token-display">${orderToken}</div>
+      <p style="opacity:0.7;font-size:14px;margin-top:12px;">Save this token — you'll need it to pick up your order</p>
+    </div>
+  `;
+}
+
+function renderStatusTracker(status) {
+  const steps = [
+    {label:'Order Placed', icon:'✓'},
+    {label:'Accepted', icon:'👨‍🍳'},
+    {label:'Preparing', icon:'🍳'},
+    {label:'Ready!', icon:'🎉'}
+  ];
+  const statusMap = {'PENDING':0,'ACCEPTED':1,'PREPARING':2,'READY':3,'COMPLETED':3};
+  const currentStep = statusMap[status] || 0;
+  return `
+    <div class="status-tracker">
+      <h3 style="font-size:18px;color:var(--green-dark);">📊 Order Status</h3>
+      <div class="status-steps">
+        ${steps.map((s,i) => `
+          <div class="status-step ${i <= currentStep ? 'done' : ''} ${i === currentStep ? 'active' : ''} ${i < currentStep ? 'step-done-line' : ''}">
+            <div class="step-dot">${s.icon}</div>
+            <div class="step-label">${s.label}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function loadOrders() {
+  const token = localStorage.getItem('encave_token');
+  fetch(`${API_BASE}/orders/my-orders`, { headers: { 'Authorization': 'Bearer ' + token } })
+    .then(r => r.json())
+    .then(orders => renderOrdersList(orders))
+    .catch(() => {
+      // Demo: show a fake order if token in URL
+      if (orderToken) {
+        renderOrdersList([{
+          orderToken: orderToken, status: 'PREPARING',
+          locationName: 'Design Building', createdAt: new Date().toISOString(),
+          items: [{name:'Demo Item', quantity:1, price:50}], total: 52
+        }]);
+      } else {
+        document.getElementById('ordersContent').innerHTML = `<div class="no-orders"><div style="font-size:56px;margin-bottom:20px;">📋</div><h3 style="color:var(--green-dark);margin-bottom:12px;">No orders yet</h3><p style="color:var(--text-light);margin-bottom:28px;">Your order history will appear here.</p><a href="menu.html" class="btn-primary">Order Now</a></div>`;
+      }
+    });
+}
+
+function renderOrdersList(orders) {
+  if (!orders.length) {
+    document.getElementById('ordersContent').innerHTML = `<div class="no-orders"><h3>No orders yet</h3><a href="menu.html" class="btn-primary" style="margin-top:20px;display:inline-block;">Order Now</a></div>`;
+    return;
+  }
+  document.getElementById('ordersContent').innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+      <h3 style="font-size:22px;color:var(--green-dark);">Recent Orders</h3>
+      <button class="refresh-btn" onclick="loadOrders()">↻ Refresh Status</button>
+    </div>
+    ${orders[0] ? renderStatusTracker(orders[0].status) : ''}
+    <div class="orders-list">
+      ${orders.map(order => `
+        <div class="order-card">
+          <div class="order-card-header">
+            <div>
+              <div class="order-token-small">#${order.orderToken}</div>
+              <div style="font-size:13px;color:var(--text-light);margin-top:2px;">${order.locationName || ''} · ${new Date(order.createdAt || Date.now()).toLocaleString()}</div>
+            </div>
+            <span class="order-badge badge-${(order.status||'pending').toLowerCase()}">${order.status || 'PENDING'}</span>
+          </div>
+          <div class="order-items-list">
+            ${(order.items||[]).map(i=>`<div class="order-item-row"><span>${i.name} × ${i.quantity}</span><span>₹${i.price*i.quantity}</span></div>`).join('')}
+          </div>
+          <div class="order-total-row"><span>Total Paid</span><span style="color:var(--gold);font-family:'Playfair Display',serif;">₹${order.total||0}</span></div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderSuccessBanner();
+  loadOrders();
+  observeFadeElements();
+});
+</script>
+</body>
+</html>

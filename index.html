@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encave Café — MIT WPU Campus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="IMG_9419_2.PNG" alt="Encave" class="logo-img">
+      <span class="logo-text">Encave <span class="logo-sub">Café</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="orders.html">My Orders</a></li>
+      <li><a href="login.html" class="nav-btn">Login</a></li>
+      <li>
+        <a href="cart.html" class="cart-link">
+          <span class="cart-icon">🛒</span>
+          <span class="cart-count" id="cartCount">0</span>
+        </a>
+      </li>
+    </ul>
+    <button class="hamburger" id="hamburger">☰</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="orders.html">My Orders</a>
+    <a href="login.html">Login</a>
+    <a href="cart.html">Cart 🛒</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-overlay"></div>
+  <div class="hero-content fade-up">
+    <div class="hero-badge">🍃 MIT WPU's Favourite Campus Café</div>
+    <h1 class="hero-title">Where Every<br><span class="hero-accent">Bite Feels</span><br>Like Home</h1>
+    <p class="hero-desc">Fresh food, great vibes — across 6 locations on campus. Order online, skip the queue.</p>
+    <div class="hero-cta">
+      <a href="menu.html" class="btn-primary">Order Now</a>
+      <a href="#locations" class="btn-outline">Find a Location ↓</a>
+    </div>
+  </div>
+  <div class="hero-visual fade-right">
+    <div class="hero-card-float">
+      <div class="float-badge">🔥 Today's Special</div>
+      <div class="float-item">Pink Sauce Pasta</div>
+      <div class="float-price">₹85</div>
+    </div>
+    <div class="hero-circle">
+      <div class="hero-circle-inner"></div>
+    </div>
+  </div>
+  <div class="hero-ticker">
+    <div class="ticker-track">
+      <span>🍳 Breakfast from 8AM &nbsp;•&nbsp;</span>
+      <span>☕ Fresh Coffee All Day &nbsp;•&nbsp;</span>
+      <span>🍝 Pasta, Rice, Thali &nbsp;•&nbsp;</span>
+      <span>🥪 Sandwiches & Subs &nbsp;•&nbsp;</span>
+      <span>🧀 Maggi Always Available &nbsp;•&nbsp;</span>
+      <span>🍳 Breakfast from 8AM &nbsp;•&nbsp;</span>
+      <span>☕ Fresh Coffee All Day &nbsp;•&nbsp;</span>
+      <span>🍝 Pasta, Rice, Thali &nbsp;•&nbsp;</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT / STORY -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text fade-up">
+        <div class="section-label">Our Story</div>
+        <h2 class="section-title">More Than Just <span class="accent">Food</span></h2>
+        <p>Encave Café was born on the MIT WPU campus with a single belief — that students deserve more than canteen food. We wanted a place that felt like a warm escape from lectures, deadlines, and late-night study sessions.</p>
+        <p>Today, Encave is spread across <strong>6 locations</strong> on campus, serving everything from morning poha to late-evening Maggi. We cook fresh, we keep it affordable, and we make it fast — because we know you've got a 9 AM class.</p>
+        <div class="about-stats">
+          <div class="stat"><span class="stat-num">6</span><span class="stat-label">Locations</span></div>
+          <div class="stat"><span class="stat-num">40+</span><span class="stat-label">Menu Items</span></div>
+          <div class="stat"><span class="stat-num">500+</span><span class="stat-label">Orders/Day</span></div>
+          <div class="stat"><span class="stat-num">8AM</span><span class="stat-label">Opens Daily</span></div>
+        </div>
+      </div>
+      <div class="about-image-col fade-right">
+        <div class="about-img-card main-img">
+          <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=500&q=80" alt="Cafe" loading="lazy">
+        </div>
+        <div class="about-img-card side-img">
+          <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300&q=80" alt="Food" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY ENCAVE -->
+<section class="features">
+  <div class="container">
+    <div class="section-label center">Why Students Love Us</div>
+    <h2 class="section-title center">The <span class="accent">Encave</span> Difference</h2>
+    <div class="features-grid">
+      <div class="feature-card fade-up" style="--delay:0s">
+        <div class="feature-icon">⚡</div>
+        <h3>Skip the Queue</h3>
+        <p>Order online, get a token, collect when ready. No waiting in line between classes.</p>
+      </div>
+      <div class="feature-card fade-up" style="--delay:0.1s">
+        <div class="feature-icon">🥗</div>
+        <h3>Fresh Every Day</h3>
+        <p>Everything cooked fresh daily. Breakfast, lunch, evening snacks — always hot and ready.</p>
+      </div>
+      <div class="feature-card fade-up" style="--delay:0.2s">
+        <div class="feature-icon">💚</div>
+        <h3>Student Budget</h3>
+        <p>Meals from ₹30. Because your hostel pocket money matters and good food shouldn't be expensive.</p>
+      </div>
+      <div class="feature-card fade-up" style="--delay:0.3s">
+        <div class="feature-icon">📍</div>
+        <h3>6 Locations</h3>
+        <p>Spread across campus — there's always an Encave within 5 minutes of your class.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATIONS -->
+<section class="locations" id="locations">
+  <div class="container">
+    <div class="section-label center">Find Us On Campus</div>
+    <h2 class="section-title center">Choose Your <span class="accent">Location</span></h2>
+    <p class="section-desc center">6 outlets across MIT WPU. Click any location to browse its menu and order.</p>
+    <div class="locations-grid" id="locationsGrid">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- MENU PREVIEW -->
+<section class="menu-preview">
+  <div class="container">
+    <div class="section-label center">What's On The Menu</div>
+    <h2 class="section-title center">Something For <span class="accent">Everyone</span></h2>
+    <div class="menu-tabs" id="menuTabs">
+      <button class="tab active" data-cat="all">All</button>
+      <button class="tab" data-cat="breakfast">🍳 Breakfast</button>
+      <button class="tab" data-cat="sandwiches">🥪 Sandwiches</button>
+      <button class="tab" data-cat="pasta">🍝 Pasta</button>
+      <button class="tab" data-cat="rice">🍚 Rice</button>
+      <button class="tab" data-cat="maggi">🍜 Maggi</button>
+      <button class="tab" data-cat="beverages">☕ Beverages</button>
+    </div>
+    <div class="menu-grid" id="menuGrid">
+      <!-- Injected by JS -->
+    </div>
+    <div class="menu-cta">
+      <a href="menu.html" class="btn-primary">View Full Menu</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="IMG_9419_2.PNG" alt="Encave" class="footer-logo">
+        <p>Encave Café — Campus food done right. 6 locations, 40+ items, always fresh.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="orders.html">Track Order</a>
+        <a href="login.html">Login</a>
+      </div>
+      <div class="footer-links">
+        <h4>Locations</h4>
+        <a href="#">Design Building</a>
+        <a href="#">Sarasvati Building</a>
+        <a href="#">Vivekanand Building</a>
+        <a href="#">Vyas Building, 5th Floor</a>
+        <a href="#">Maitrey Building</a>
+        <a href="#">Dhruv Building</a>
+      </div>
+      <div class="footer-contact">
+        <h4>Hours</h4>
+        <p>Mon – Sat: 8:00 AM – 9:00 PM</p>
+        <p>Sunday: 9:00 AM – 6:00 PM</p>
+        <p>📍 MIT WPU, Pune</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Encave Café, MIT WPU. Made with 💚 on campus.</p>
+      <a href="admin/dashboard.html" class="admin-link">Admin Panel</a>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
